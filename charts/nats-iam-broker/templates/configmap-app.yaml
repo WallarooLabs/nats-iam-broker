@@ -17,7 +17,9 @@ data:
       name: {{ .Values.config.app.name }}
       version: {{ include "getImageTag" . }}
       description: {{ .Values.config.app.description }}
+      {{- if .Values.config.app.natsMicroService.userCredsFile }}
       creds_file: {{ .Values.config.app.natsMicroService.userCredsFile }}
+      {{- end }}
 
       account:
         name: {{ .Values.config.app.natsMicroService.account.name }}

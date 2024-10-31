@@ -86,11 +86,11 @@ build:
 ################################################################################
 .PHONY: docker-build
 docker-build:
-	podman build \
-	    --layers \
-		-f docker/Dockerfile.example \
-		--build-arg BUILD_OS=linux --build-arg BUILD_ARCH=amd64 \
+	docker buildx build \
+		-f docker/Dockerfile \
+		--platform linux/amd64 \
 		-t nats-iam-broker:debug \
+		--load \
 		.
 
 ################################################################################

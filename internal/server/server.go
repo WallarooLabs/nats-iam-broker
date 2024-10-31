@@ -38,7 +38,8 @@ func Start(configFiles []string) error {
 	auth := NewAuthService(config.Service.Account.SigningNKey.KeyPair, config.serviceEncryptionXkey(), func(request *jwt.AuthorizationRequestClaims) (*jwt.UserClaims, nkeys.KeyPair, error) {
 		// log.Trace().Msgf("NewAuthService (request): %s", request)
 
-		idpJwt := request.ConnectOptions.Password
+		// idpJwt := request.ConnectOptions.Password
+		idpJwt := request.ConnectOptions.Token
 
 		reqClaims, err := runVerification(idpJwt, idpVerifiers)
 		if err != nil {
@@ -59,7 +60,8 @@ func Start(configFiles []string) error {
 		// setup claims for user's nats-jwt
 		claims := jwt.NewUserClaims(request.UserNkey)
 		claims.Name = request.ConnectOptions.Username
-		claims.IssuerAccount = userAccountInfo.PublicKey
+		// claims.IssuerAccount = userAccountInfo.PublicKey
+		claims.Audience = userAccountInfo.Name
 		claims.Expires = reqClaims.Expiry
 		claims.Permissions = *permissions
 		claims.Limits = *limits

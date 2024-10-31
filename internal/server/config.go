@@ -38,7 +38,7 @@ type Service struct {
 	Name        string         `yaml:"name" validate:"required"`
 	Description string         `yaml:"description" validate:"required"`
 	Version     string         `yaml:"version" validate:"required,semver"`
-	CredsFile   string         `yaml:"creds_file" validate:"required"`
+	CredsFile   string         `yaml:"creds_file"`
 	Account     ServiceAccount `yaml:"account" validate:"required"`
 }
 
@@ -49,7 +49,7 @@ type ServiceAccount struct {
 }
 
 type Encryption struct {
-	Enabled bool `yaml:"enabled" validate:"required"`
+	Enabled bool `yaml:"enabled"`
 	Seed    NKey `yaml:"xkey_secret"`
 }
 
