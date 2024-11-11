@@ -61,6 +61,10 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.env }}
+          env:
+            {{- toYaml .Values.env | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: volume-config-app
               mountPath: /config/app.yaml

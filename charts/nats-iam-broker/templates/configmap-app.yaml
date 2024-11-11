@@ -20,6 +20,10 @@ data:
       {{- if .Values.config.app.natsMicroService.userCredsFile }}
       creds_file: {{ .Values.config.app.natsMicroService.userCredsFile }}
       {{- end }}
+      {{- if .Values.config.app.natsMicroService.userCreds }}
+      creds:
+        {{- toYaml .Values.config.app.natsMicroService.userCreds | nindent 8 }}
+      {{- end }}
 
       account:
         name: {{ .Values.config.app.natsMicroService.account.name }}

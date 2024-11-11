@@ -39,7 +39,13 @@ type Service struct {
 	Description string         `yaml:"description" validate:"required"`
 	Version     string         `yaml:"version" validate:"required,semver"`
 	CredsFile   string         `yaml:"creds_file"`
+	Creds       *UserCreds     `yaml:"creds"`
 	Account     ServiceAccount `yaml:"account" validate:"required"`
+}
+
+type UserCreds struct {
+	Username string `yaml:"username" validate:"required"`
+	Password string `yaml:"password" validate:"required"`
 }
 
 type ServiceAccount struct {
@@ -196,12 +202,18 @@ func readConfigFiles(files []string, mappings map[string]interface{}) (*Config, 
 
 func (c *Config) natsOptions() []nats.Option {
 
-	natsCreds := c.Service.CredsFile
+	natsCredsFile := c.Service.CredsFile
 
 	var opts []nats.Option
-	if natsCreds != "" {
-		opts = append(opts, nats.UserCredentials(natsCreds))
+	if natsCredsFile != "" {
+		opts = append(opts, nats.UserCredentials(natsCredsFile))
 	}
+
+	natsCreds := c.Service.Creds
+	if natsCreds != nil {
+		opts = append(opts, nats.UserInfo(natsCreds.Username, natsCreds.Password))
+	}
+
 	return opts
 }
 

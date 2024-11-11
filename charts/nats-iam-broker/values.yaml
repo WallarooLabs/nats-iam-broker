@@ -187,6 +187,9 @@ volumes: []
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts: []
 
+# Environment variables for the container
+env: []
+
 # Node selector for pod scheduling
 nodeSelector: {}
 
