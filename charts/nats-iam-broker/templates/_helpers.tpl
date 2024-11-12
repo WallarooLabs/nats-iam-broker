@@ -70,7 +70,7 @@ Additional helper functions
 {{- $type := index . 0 -}}
 {{- $x := index . 1 -}}
 {{ if eq $type "env" -}}
-<<< env ${{ $x }} >>>
+<<< env {{ $x | quote }} >>>
 {{- else if eq $type "file" -}}
 <<< readFile {{ $x | quote }} >>>
 {{- else -}}
