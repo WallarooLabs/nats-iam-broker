@@ -31,6 +31,7 @@ type IdpJwtClaims struct {
 	NotBeforeTime     int64            `json:"nbf,omitempty"`
 	JwtId             string           `json:"jti,omitempty"`
 	AccessTokenHash   string           `json:"at_hash,omitempty"`
+	AuthorizedParty   string           `json:"azp,omitempty"`
 }
 
 type JwtClaimAudience []string
