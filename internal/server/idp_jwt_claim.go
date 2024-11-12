@@ -32,6 +32,7 @@ type IdpJwtClaims struct {
 	JwtId             string           `json:"jti,omitempty"`
 	AccessTokenHash   string           `json:"at_hash,omitempty"`
 	AuthorizedParty   string           `json:"azp,omitempty"`
+	RealmRoles        KCRealmRoles     `json:"realm_access,omitempty"`
 }
 
 type JwtClaimAudience []string
@@ -52,6 +53,10 @@ func (a *JwtClaimAudience) UnmarshalJSON(data []byte) error {
 	return fmt.Errorf("aud field is not a valid string or array of strings")
 }
 
+type KCRealmRoles struct {
+	Roles []string `json:"roles,omitempty"`
+}
+
 func (j *IdpJwtClaims) toMap() map[string]interface{} {
 	var result map[string]interface{}
 
@@ -67,6 +72,11 @@ func (j *IdpJwtClaims) toMap() map[string]interface{} {
 	if err != nil {
 		log.Err(err)
 		return result
+	}
+
+	if realm_access, ok := result["realm_access"].(map[string]interface{}); ok {
+		result["realm_access.roles"] = realm_access["roles"]
+		delete(result, "realm_access")
 	}
 
 	return result
